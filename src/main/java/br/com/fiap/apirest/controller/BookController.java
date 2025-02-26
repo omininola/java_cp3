@@ -7,7 +7,6 @@ import br.com.fiap.apirest.repository.BookRepository;
 import br.com.fiap.apirest.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,11 +36,11 @@ public class BookController {
 
     // Read - GET
     @GetMapping
-    public ResponseEntity<Page<BookRes>> readLivros(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "2") int pageSize) {
+    public ResponseEntity<Page<BookRes>> readBooks(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "2") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("title").ascending());
-        Page<Book> pageLivros = bookRepository.findAll(pageable);
-        Page<BookRes> listaLivrosRes = bookService.pageToRes(pageLivros);
-        return new ResponseEntity<>(listaLivrosRes, HttpStatus.OK);
+        Page<Book> bookPage = bookRepository.findAll(pageable);
+        Page<BookRes> bookResList = bookService.pageToRes(bookPage);
+        return new ResponseEntity<>(bookResList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
