@@ -3,6 +3,7 @@ package br.com.fiap.apirest.service;
 import br.com.fiap.apirest.dto.BookReq;
 import br.com.fiap.apirest.dto.BookRes;
 import br.com.fiap.apirest.model.Book;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,5 +35,9 @@ public class BookService {
 
     public List<BookRes> booksToRes (List<Book> books) {
         return books.stream().map(this::bookToRes).collect(Collectors.toList());
+    }
+
+    public Page<BookRes> pageToRes(Page<Book> pageLivro) {
+        return pageLivro.map(this::bookToRes);
     }
 }
